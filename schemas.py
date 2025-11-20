@@ -12,7 +12,7 @@ Model name is converted to lowercase for the collection name:
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional, Literal
+from typing import Optional, Literal, List
 
 # Example schemas (you can keep or ignore in your app flows)
 class User(BaseModel):
@@ -67,3 +67,10 @@ class Booking(BaseModel):
     status: Literal["pending", "confirmed", "completed", "cancelled"] = Field(
         "pending", description="Booking status"
     )
+    # Location (optional) for service area checks
+    latitude: Optional[float] = Field(None, description="Latitude of service location")
+    longitude: Optional[float] = Field(None, description="Longitude of service location")
+    # Pricing selections (optional)
+    selected_addons: Optional[List[str]] = Field(default_factory=list, description="Chosen addons")
+    package_name: Optional[str] = Field(None, description="Selected package tier, if any")
+    quoted_price: Optional[float] = Field(None, ge=0, description="Final quoted price at time of booking")
